@@ -60,4 +60,7 @@ extension CollectionViewTableViewCell:UICollectionViewDelegate,UICollectionViewD
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 10
     }
+    
+    
+    
 }

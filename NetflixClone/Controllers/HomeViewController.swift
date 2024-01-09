@@ -23,9 +23,29 @@ class HomeViewController:UIViewController {
         homeFeedTable.delegate = self
         homeFeedTable.dataSource = self
         
+        configureNavBar()
+        
         let heightAdaptive = (view.bounds.height / 100) * 45
         let headerView = HeroHeaderUIView(frame:CGRect(x: 0, y: 0, width: view.bounds.width, height: heightAdaptive))
         homeFeedTable.tableHeaderView = headerView
+    }
+    
+    private func configureNavBar(){
+        
+        var image = UIImage(named: "logo")
+        image = image?.withRenderingMode(.alwaysOriginal)
+       
+        let leftBarButtonSpace = UIBarButtonItem(image: image, style: .plain, target: self, action: nil)
+        let leftPosition = view.bounds.width / 4 - 20
+        leftBarButtonSpace.imageInsets = UIEdgeInsets(top: 0, left: -leftPosition, bottom: 0, right: 0)
+
+        navigationItem.leftBarButtonItem = leftBarButtonSpace
+        navigationItem.rightBarButtonItems = [
+            UIBarButtonItem(image:UIImage(systemName: "person"),style: .done,target: self,action: nil),
+            UIBarButtonItem(image:UIImage(systemName: "play.rectangle"),style: .done,target: self,action: nil)
+        ]
+        navigationController?.navigationBar.tintColor = .white
+    
     }
     
     override func viewDidLayoutSubviews() {
@@ -58,5 +78,23 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
         return 40
     }
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let defaultoffset = view.safeAreaInsets.top
+        let offset = scrollView.contentOffset.y + defaultoffset
+        
+        navigationController?.navigationBar.transform = .init(translationX: 0, y: min(0,-offset))
+    }
     
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        guard let header = view as? UITableViewHeaderFooterView else {return}
+        header.textLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
+        header.textLabel?.textColor = .white
+        header.textLabel?.frame = CGRect(x: header.bounds.origin.x + 20, y: header.bounds.origin.y , width: 100, height: header.bounds.height)
+        header.textLabel?.text = header.textLabel?.text?.capitalized(with: .none)
+    }
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        tableView.tintColor = .white
+        
+        return "Teste"
+    }
 }
