@@ -15,8 +15,12 @@ class HomeViewController:UIViewController {
         return table
     }()
     
+    private let moviesData = ["trending movies","trending tv","popular","upcoming movies","top rated"]
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        APICaller().handlerGetMovies()
         view.addSubview(homeFeedTable)
         view.backgroundColor = .systemBackground
         
@@ -57,7 +61,7 @@ class HomeViewController:UIViewController {
 extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 20
+        return moviesData.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -95,6 +99,6 @@ extension HomeViewController:UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         tableView.tintColor = .white
         
-        return "Teste"
+        return moviesData[section]
     }
 }
